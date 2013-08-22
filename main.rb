@@ -3,6 +3,30 @@ require 'sinatra'
 
 set :sessions, true
 
+helpers do 
+	def calculate_total(cards)
+  		arr = cards.map{|e| e[1]}
+  
+  		total = 0 
+  		arr.each do |value|
+    		if value == "A"
+      			total += 11
+    		elsif value.to_i == 0
+      			total += 10 
+    		else 
+      			total += value.to_i
+    		end 
+  		end 
+  
+  	# Modified the Ace value 
+  	arr.select{|e| e = "A"}.count.times do 
+    	total -= 10 if total > 21 
+  	end 
+  
+  	total 
+	end 
+end 
+
 get '/' do 
 	if session[:player_name]
 		redirect '/game'

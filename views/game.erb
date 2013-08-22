@@ -16,5 +16,9 @@ Player's cards:
 	<% session[:player_cards].each do |card| %> 
 		<li><%= card.to_s %></li>
 	<% end %>
-
 </ul> 
+
+<p>
+	What would you like to do? 
+<%= session[:player_name] %> has <%= calculate_total(session[:player_cards]) %>
+</p>
