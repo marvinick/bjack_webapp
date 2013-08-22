@@ -2,21 +2,21 @@
 
 Welcome <%= session[:player_name] %>.
 
-Dealer's cards: 
-<ul> 
+<div class='well'>
+<h4>Dealer's cards:</h4> 
 	<% session[:dealer_cards].each do |card| %> 
-		<li><%= card.to_s %></li>
+		<%= card_image(card) %>
 	<% end %>
-</ul> 
+</div>
 
 <br/> 
 
-Player's cards: 
-<ul> 
+<div class='well'>
+<h4>Player's cards:</h4>
 	<% session[:player_cards].each do |card| %> 
-		<li><%= card.to_s %></li>
+		<%= card_image(card) %>
 	<% end %>
-</ul> 
+</div>
 
 <p>
 	What would you like to do? 
@@ -24,12 +24,12 @@ Player's cards:
 </p>
 
 <% if @show_hit_or_stay_buttons %>
-	<form action="/game/player/hit" method='post'> 
-		<input type="submit" class="btn" value="Hit" /> 
+	<form id="hit_form" action="/game/player/hit" method='post'> 
+		<input type="submit" class="btn-success" value="Hit" /> 
 	</form> 
 
-	<form action ="/game/player/stay" method='post'>
-    	<input type="submit" class="btn" value="Stay" />
+	<form id="stay_form" action ="/game/player/stay" method='post'>
+    	<input type="submit" class="btn-warning" value="Stay" />
   	</form>
 <% end %>
 </p>
