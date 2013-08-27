@@ -96,7 +96,7 @@ post '/new_player' do
 	end 
 
 	session[:player_name] = params[:player_name]
-	redirect '/game'
+	redirect '/bet'
 end 
 
 get '/bet' do 
