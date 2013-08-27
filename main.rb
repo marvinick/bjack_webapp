@@ -15,16 +15,15 @@ helpers do
   		arr.each do |value|
     		if value == "A"
       			total += 11
-    		elsif value.to_i == 0
-      			total += 10 
     		else 
-      			total += value.to_i
+      			total += value.to_i == 0 ? 10 : value.to_i
     		end 
   		end 
   
   	# Modified the Ace value 
   	arr.select{|e| e = "A"}.count.times do 
-    	total -= 10 if total > 21 
+    	break if total <= BLACKJACK_AMOUNT
+    	total -= 10 
   	end 
   
   	total 
@@ -111,7 +110,7 @@ post '/bet' do
   elsif params[:bet_amount].to_i > session[:player_pot]
     @error = "Bet amount cannot be greater than what you have ($#{session[:player_pot]})"
     halt erb(:bet)
-  else #happy path / no errors happens 
+  else # no errors happens 
     session[:player_bet] = params[:bet_amount].to_i
     redirect '/game'
   end
@@ -119,6 +118,7 @@ end
 
 get '/game' do
 	session[:turn] = session[:player_name]
+	
 	# create a deck and put it in session 
 	suits = ['H','D','C','S']
 	values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
@@ -141,7 +141,6 @@ post '/game/player/hit' do
 	player_total = calculate_total(session[:player_cards])
 	if player_total == BLACKJACK_AMOUNT 
 		winner!("#{session[:player_name]} hit blackjack.")
-
 	elsif player_total > BLACKJACK_AMOUNT
 		loser!("It looks like #{session[:player_name]} busted at #{player_total}.") 
 	end 
@@ -164,7 +163,7 @@ get '/game/dealer' do
 
 	if dealer_total == BLACKJACK_AMOUNT 
 		loser!("Dealer hit blackjack")
-	elsif dealer_total > 21 
+	elsif dealer_total > BLACKJACK_AMOUNT
 		winner!("Dealer busted at #{dealer_total}")
 	elsif dealer_total >= DEALER_HIT
 		# dealer stays 

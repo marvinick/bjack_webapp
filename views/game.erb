@@ -1,12 +1,12 @@
 <h1>Blackjack</h1>
 
-Welcome <%= session[:player_name] %>.
+<p>Welcome <%= session[:player_name] %>.</p>
 
 <% if @play_again %>
  <p>
 	<strong>Play again?</strong>
 	<a href="/bet" class="btn btn-primary">Yes</a>
-	<a href="/game_over" class="btn">No</a>
+	<a href="/game_over" class="btn"> No</a>
  </p>
 <% end %>
 
